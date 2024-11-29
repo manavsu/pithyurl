@@ -2,7 +2,7 @@ import redis
 import config
 from redis.exceptions import ConnectionError, TimeoutError
 from retrying import retry
-from base_log import BASE_LOG
+from backend.app.base_log import BASE_LOG
 
 log = BASE_LOG.getChild(__name__)
 

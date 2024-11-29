@@ -1,18 +1,28 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from url_hasher import create_short_url, get_long_url
 from fastapi.responses import RedirectResponse
+from fastapi.middleware.cors import CORSMiddleware
+
 from config import BASE_URL
-from base_log import BASE_LOG
-from monitoring_redis_client import increment_url_created_count, increment_visit_count
+from app.base_log import BASE_LOG
+from app.url_hasher import create_short_url, get_long_url
+from app.monitoring_redis_client import increment_url_created_count, increment_visit_count
 
 log = BASE_LOG.getChild(__name__)
 
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 class URL(BaseModel):
     url: str
-
-
-app = FastAPI()
 
 @app.get("/")
 def read_root():

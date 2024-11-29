@@ -1,7 +1,7 @@
 import secrets
 import base64
 from redis_client import try_set, get
-from base_log import BASE_LOG
+from backend.app.base_log import BASE_LOG
 from typing import Tuple
 
 log = BASE_LOG.getChild(__name__)
