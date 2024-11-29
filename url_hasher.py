@@ -10,13 +10,21 @@ def generate_random_base64(length:int=6) -> str:
     base64_string = base64.urlsafe_b64encode(random_bytes).rstrip(b'=').decode('utf-8')
     return base64_string
 
-def create_short_url(long_url:str) -> Tuple[str, int]:
+def create_short_url(long_url:str) -> Tuple[str, int] | None:
     short_url = generate_random_base64()
     collisions = 0
-    while not try_set(short_url, long_url):
-        collisions += 1
-        short_url = generate_random_base64()
+    try:
+        while not try_set(short_url, long_url):
+            collisions += 1
+            short_url = generate_random_base64()
+    except Exception as e:
+        log.error(f"Error creating short URL for {long_url}: {e}")
+        return None
     return short_url, collisions
 
 def get_long_url(short_url:str) -> str|None:
-    return get(short_url)
+    try:
+        return get(short_url)
+    except Exception as e:
+        log.error(f"Error getting long URL for {short_url}: {e}")
+        return None

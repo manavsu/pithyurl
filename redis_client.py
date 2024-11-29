@@ -1,17 +1,35 @@
 import redis
 import config
 import time
+from redis.exceptions import ConnectionError, TimeoutError
+from retrying import retry
 
 log_key = config.LOG_KEY
+retry_wait = config.REDIS_RETRY_WAIT
+num_retries = config.REDIS_NUM_RETRIES
 
 rds = redis.Redis(host=config.REDIS_HOST, port=config.REDIS_PORT, db=0)
 
-def try_set(key:str, value:str) -> bool:
-    return rds.set(key, value, nx=True) == True
+@retry(stop_max_attempt_number=num_retries, wait_fixed=retry_wait)
+def try_set(key: str, value: str) -> bool:
+    try:
+        return rds.set(key, value, nx=True) == True
+    except (ConnectionError, TimeoutError) as e:
+        print(f"Error setting key {key}: {e}")
+        raise
 
-def get(key:str) -> str|None:
-    return rds.get(key)
+@retry(stop_max_attempt_number=num_retries, wait_fixed=retry_wait)
+def get(key: str) -> str | None:
+    try:
+        return rds.get(key)
+    except (ConnectionError, TimeoutError) as e:
+        print(f"Error getting key {key}: {e}")
+        raise
 
-def log(log_entry:str) -> None:
-    timestamp = time.time()
-    rds.zadd(log_key, {log_entry: timestamp})
+@retry(stop_max_attempt_number=num_retries, wait_fixed=retry_wait)
+def log(log_entry: str) -> None:
+    try:
+        timestamp = time.time()
+        rds.zadd(log_key, {log_entry: timestamp})
+    except (ConnectionError, TimeoutError) as e:
+        print(f"Error logging entry {log_entry}: {e}")
