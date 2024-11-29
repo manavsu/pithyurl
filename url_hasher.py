@@ -24,7 +24,7 @@ def create_short_url(long_url:str) -> Tuple[str, int] | None:
 
 def get_long_url(short_url:str) -> str|None:
     try:
-        return get(short_url)
+        return get(short_url).decode('utf-8')
     except Exception as e:
         log.error(f"Error getting long URL for {short_url}: {e}")
         return None

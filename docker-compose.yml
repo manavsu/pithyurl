@@ -12,6 +12,20 @@ services:
       - pithyurl_network
     volumes:
       - redis_data:/data
+
+  pithyurl_redis_monitoring:
+    container_name: pithyurl_redis_monitoring
+    build:
+      context: ./redis
+      dockerfile: ./Dockerfile
+      args:
+        REDIS_PORT: 16379
+    ports:
+      - "16379:16379"
+    networks:
+      - pithyurl_network
+    volumes:
+      - redis_data:/data
       
   pithyurl:
     image: pithyurl

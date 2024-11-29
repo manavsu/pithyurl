@@ -1,15 +1,11 @@
 import logging
-from logging.handlers import RotatingFileHandler 
-import datetime
 import logging.handlers
-import redis_client
-import os
-import time
+import monitoring_redis_client
 
 class RedisHandler(logging.Handler):
     def emit(self, record: logging.LogRecord) -> None:
         log_entry = self.format(record)
-        redis_client.zadd(log_entry)
+        monitoring_redis_client.log(log_entry)
 
 BASE_LOG = logging.getLogger("pithy")
 BASE_LOG.setLevel(logging.DEBUG)
