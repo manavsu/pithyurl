@@ -1,11 +1,21 @@
 import logging
 import logging.handlers
-import monitoring_redis_client
+from app.models import LogEntry, DB_Session_Maker
 
-class RedisHandler(logging.Handler):
+class DBHandler(logging.Handler):
     def emit(self, record: logging.LogRecord) -> None:
         log_entry = self.format(record)
-        monitoring_redis_client.log(log_entry)
+        db = DB_Session_Maker()
+        try:
+            entry = LogEntry(message=log_entry)
+            db.add(entry)
+            db.commit()
+        except Exception as e:
+            print(f"Error writing log entry to database: {e} -> {log_entry}")
+            db.rollback()
+        finally:
+            db.close()
+    
 
 BASE_LOG = logging.getLogger("pithy")
 BASE_LOG.setLevel(logging.DEBUG)
@@ -15,16 +25,14 @@ console_formatter = logging.Formatter('%(asctime)s:%(levelname)s:%(name)s:%(mess
 console_handler.setFormatter(console_formatter)
 console_handler.setLevel(logging.INFO)
 
-redis_handler = RedisHandler()
-redis_formatter = logging.Formatter('%(process)d:%(asctime)s:%(levelname)s:%(name)s:%(message)s')
-redis_handler.setFormatter(redis_formatter)
-redis_handler.setLevel(logging.DEBUG)
+db_handler = DBHandler()
+db_formatter = logging.Formatter('%(process)d:%(asctime)s:%(levelname)s:%(name)s:%(message)s')
+db_handler.setFormatter(db_formatter)
+db_handler.setLevel(logging.DEBUG)
 
 BASE_LOG.addHandler(console_handler)
-BASE_LOG.addHandler(redis_handler)
+BASE_LOG.addHandler(db_handler)
 BASE_LOG.propagate = False
-
-logging.basicConfig(level=logging.INFO)
 
 logging.getLogger('werkzeug').setLevel(logging.WARNING)
 logging.getLogger('httpx').setLevel(logging.WARNING)

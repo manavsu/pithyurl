@@ -1,0 +1,9 @@
+FROM postgres:latest
+
+ENV POSTGRES_DB=pithy
+ENV POSTGRES_USER=pithy
+ENV POSTGRES_PASSWORD=pithy
+
+EXPOSE 5432
+
+CMD ["postgres"]

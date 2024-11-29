@@ -9,7 +9,14 @@ engine = create_engine(config.SQLALCHEMY_POSTGRES_DATABASE_URI)
 DB_Session_Maker = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
-from models.log_entry_model import LogEntry
-from models.url_model import URL
+from app.models.log_entry_model import LogEntry
+from app.models.url_model import URL
 
 DB_Base.metadata.create_all(bind=engine)
+
+def get_db():
+    db = DB_Session_Maker()
+    try:
+        yield db
+    finally:
+        db.close()

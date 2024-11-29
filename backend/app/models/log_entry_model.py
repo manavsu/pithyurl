@@ -6,8 +6,8 @@ from app.models import DB_Base
 class LogEntry(DB_Base):
     __tablename__ = 'log'
 
-    id = Column(String, primary_key=True, index=True)
-    timestamp = Column(Integer, default=time.time_ns(), index=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    timestamp = Column(Integer, default=int(time.time()), index=True)
     message = Column(String, nullable=False)
 
     def __repr__(self):

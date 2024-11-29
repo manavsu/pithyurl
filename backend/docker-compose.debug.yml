@@ -1,21 +1,9 @@
 
 services:
-  pithyurl_redis:
-    container_name: pithyurl_redis
+  pithyurl_postgres:
+    container_name: pithyurl_postgres
     build:
-      context: ./redis
+      context: ./postgres
       dockerfile: ./Dockerfile
-      args:
-        REDIS_PORT: 6379
     ports:
-      - "6379:6379"
-
-  pithyurl_redis_monitoring:
-    container_name: pithyurl_redis_monitoring
-    build:
-      context: ./redis
-      dockerfile: ./Dockerfile
-      args:
-        REDIS_PORT: 16379
-    ports:
-      - "16379:16379"
+      - "5432:5432"

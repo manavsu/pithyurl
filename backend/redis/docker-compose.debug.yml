@@ -1,0 +1,21 @@
+
+services:
+  pithyurl_redis:
+    container_name: pithyurl_redis
+    build:
+      context: ./redis
+      dockerfile: ./Dockerfile
+      args:
+        REDIS_PORT: 6379
+    ports:
+      - "6379:6379"
+
+  pithyurl_redis_monitoring:
+    container_name: pithyurl_redis_monitoring
+    build:
+      context: ./redis
+      dockerfile: ./Dockerfile
+      args:
+        REDIS_PORT: 16379
+    ports:
+      - "16379:16379"
