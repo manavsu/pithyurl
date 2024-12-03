@@ -17,3 +17,11 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+
+
+networks:
+  reverse_proxy_network:
+    external: true
+
+volumes:
+  pithyurl_postgres_data:

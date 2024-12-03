@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
+from fastapi.staticfiles import StaticFiles
 
 from config import BASE_URL
 from app.base_log import BASE_LOG
@@ -31,10 +32,6 @@ def get_db():
 class URL(BaseModel):
     url: str
 
-@app.get("/")
-def read_root():
-    return "I'm alive!"
-
 @app.post("/urls")
 def create_url(url: URL, db:Session=Depends(get_db)):
     result = create_short_url(url.url, db)
@@ -56,3 +53,4 @@ def read_item(short_url: str, db: Session=Depends(get_db)):
     log.info(f"{short_url} -> {long_url} redirected.")
     return RedirectResponse(url=long_url, status_code=302)
 
+app.mount("/", StaticFiles(directory="../frontend/build", html=True), name="static")
