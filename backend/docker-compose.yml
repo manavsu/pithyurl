@@ -5,8 +5,6 @@ services:
     build:
       context: ./postgres
       dockerfile: ./Dockerfile
-    ports:
-      - "5432:5432"
     networks:
       - reverse_proxy_network
     volumes:
@@ -17,8 +15,6 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    ports:
-      - "80:8000"
     networks:
       - reverse_proxy_network
     depends_on:
