@@ -5,7 +5,7 @@ REDIS_PORT = 6379
 
 POSTGRES_USER = "pithy"
 POSTGRES_PASSWORD = "pithy"
-POSTGRES_HOST = "localhost"
+POSTGRES_HOST = "pithyurl_postgres"
 POSTGRES_PORT = 5432
 POSTGRES_DB = "pithy"
 

@@ -21,6 +21,8 @@ services:
       - "80:8000"
     networks:
       - pithyurl_network
+    depends_on:
+      - pithyurl_postgres
 
 
 networks:
