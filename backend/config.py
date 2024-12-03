@@ -1,4 +1,4 @@
-BASE_URL = "http://localhost:8000/"
+BASE_URL = "https://pithyurl.duckdns.org/"
 
 REDIS_HOST = "localhost"
 REDIS_PORT = 6379
