@@ -53,4 +53,4 @@ def read_item(short_url: str, db: Session=Depends(get_db)):
     log.info(f"{short_url} -> {long_url} redirected.")
     return RedirectResponse(url=long_url, status_code=302)
 
-app.mount("/", StaticFiles(directory="../frontend/build", html=True), name="static")
+app.mount("/", StaticFiles(directory="./build", html=True), name="static")
