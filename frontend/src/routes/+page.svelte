@@ -58,7 +58,7 @@
 
 		<div class="flex h-full flex-col items-center overflow-hidden py-2 transition-all duration-1000 ease-in-out {short_url_created && !loading ? 'w-full' : 'w-0'}">
 			<div class="flex h-full flex-col items-center gap-4 px-8">
-				<a href={short_url} target="_blank" class="text-nowrap rounded-full bg-white px-5 py-1 text-3xl text-black transition hover:scale-110">{short_url}</a>
+				<a href={short_url} target="_blank" class="text-nowrap rounded-full bg-white px-5 py-1 text-2xl text-black transition hover:scale-110">{short_url}</a>
 				<button onclick={() => copyToClipboard(short_url)} class="rounded-full border-2  px-16 text-3xl transition hover:scale-110 {copied ? 'text-green-600 border-green-600' : 'text-white border-white'}">⧉</button>
 				<button onclick={() => (short_url_created = false)} class="rounded-full border-2 border-white px-8 text-3xl transition hover:scale-110">←</button>
 			</div>
