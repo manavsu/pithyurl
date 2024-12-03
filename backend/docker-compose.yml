@@ -26,8 +26,8 @@ services:
 
 
 networks:
-  pithyurl_network:
-    driver: bridge
+  reverse_proxy_network:
+      external: true
 
 volumes:
   pithyurl_postgres_data:
