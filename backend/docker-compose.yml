@@ -9,6 +9,7 @@ services:
       - reverse_proxy_network
     volumes:
       - pithyurl_postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
 
   pithyurl:
     image: pithyurl
@@ -19,6 +20,7 @@ services:
       - reverse_proxy_network
     depends_on:
       - pithyurl_postgres
+    restart: unless-stopped
 
 
 networks:
