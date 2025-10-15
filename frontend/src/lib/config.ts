@@ -1,1 +1,1 @@
-export const SERVER_URL = 'https://pithyurl.duckdns.org';
+export const SERVER_URL = 'https://pithyurl.languidlabs.com';
