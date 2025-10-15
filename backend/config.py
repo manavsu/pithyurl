@@ -1,4 +1,4 @@
-BASE_URL = "https://pithyurl.duckdns.org/"
+BASE_URL = "https://pithyurl.languidlabs.com/"
 
 REDIS_HOST = "localhost"
 REDIS_PORT = 6379
@@ -21,6 +21,7 @@ MONITORING_REDIS_PORT = 16379
 
 LOG_KEY = "logs"
 
+
 class METRICS:
     URLS_CREATED_KEY = "num_urls_created"
-    URLS_REDIRECTED_KEY_PREFIX = "visits:" # + short_url
+    URLS_REDIRECTED_KEY_PREFIX = "visits:"  # + short_url
